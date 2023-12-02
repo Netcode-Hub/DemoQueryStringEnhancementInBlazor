@@ -1,0 +1,36 @@
+﻿@page "/"
+@inject NavigationManager NavManager
+<div class="row">
+    <div class="col-md-6">
+        <EditForm Model="MyProduct" OnSubmit="SentToChild" Enhance>
+            <label class=" form-label">Id</label>
+            <InputNumber class="form-control" @bind-Value="MyProduct.Id"></InputNumber>
+
+            <label class=" form-label">Name</label>
+            <InputText class="form-control" @bind-Value="MyProduct.Name"></InputText>
+
+            <label class=" form-label">Amount</label>
+            <InputNumber class="form-control" @bind-Value="MyProduct.Amount"></InputNumber>
+
+            <button class="btn btn-primary mt-2" type="submit">Send To Child</button>
+
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    Product MyProduct = new();
+
+    void SentToChild()
+    {
+        var parameter = new Dictionary<string, object>
+        {
+            {"id", MyProduct.Id},
+            {"name", MyProduct.Name!},
+            {"amount", MyProduct.Amount},
+        };
+
+        NavManager.NavigateTo(NavManager.GetUriWithQueryParameters("oldchild", parameter!));
+    }
+
+}

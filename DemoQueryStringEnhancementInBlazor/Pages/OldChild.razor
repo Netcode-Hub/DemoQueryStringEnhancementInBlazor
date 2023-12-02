@@ -1,0 +1,42 @@
+﻿@page "/oldchild"
+@using System.Web
+@inject NavigationManager NavManager
+<PageTitle>Counter</PageTitle>
+
+<h4>ID : @MyProduct.Id</h4>
+<h4>Name : @MyProduct.Name</h4>
+<h4>Amount : @MyProduct.Amount</h4>
+
+@code {
+    Product MyProduct = new();
+
+    [Parameter] 
+    [SupplyParameterFromQuery]
+    public string? Id { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name ="name")]
+    public string? ChannelName { get; set; }
+
+    [Parameter] 
+    [SupplyParameterFromQuery]
+    public string? Amount { get; set; }
+
+    protected override void OnInitialized()
+    {
+        MyProduct.Id = int.Parse(Id!);
+        MyProduct.Name = ChannelName;
+        MyProduct.Amount = decimal.Parse(Amount!);
+
+
+        //Options 1
+        // var uri = new Uri(NavManager.Uri);
+        // var httpUtilityUri = HttpUtility.ParseQueryString(uri.Query);
+        // string id = httpUtilityUri.Get("id")!;
+        // MyProduct.Id = int.Parse(id);
+
+        // MyProduct.Name = httpUtilityUri.Get("name");
+        // var amount = httpUtilityUri.Get("amount");
+        // MyProduct.Amount = decimal.Parse(amount!);
+    }
+}
